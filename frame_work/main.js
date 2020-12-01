@@ -4,8 +4,7 @@ var car;
 
 function preload() {
 	stage = loadImage("assets/stage.png");
-	ryu = loadAnimation("assets/ryu_stand/ryu_stand_0.png","assets/ryu_stand/ryu_stand_1.png");
-	car = loadImage("assets/car_0.png");
+	car = loadImage("assets/car/car_0.png");
 }
 
 function setup() {
