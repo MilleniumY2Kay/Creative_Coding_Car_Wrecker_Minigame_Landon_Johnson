@@ -1,18 +1,3 @@
-var stage;
-var player = [];
-var car = [];
-var intro;
-
-var car_hp = 1400;
-var car_form = 0;
-
-var score = 0;
-var timer = 40;
-var alert = 140;
-
-var active = false;
-var left = true;
-
 
 function preload() {
 	stage = loadImage("assets/stage.png");//1260x787 pixels
@@ -40,12 +25,16 @@ function draw() {
 
    textSize(40);
 
-   fill(255,140,0);
+   fill(255,alert,0);
    text(timer+" s", 500, 30);
 
    fill(255,140,0);
    text(score+" pts",30,30);
 
+   if (timer < 11) {
+   	alert = 0;
+   }
+   
    if (frameCount % 60 ==0 && timer > 0 && car_hp > 0){
    	timer --;
    }
