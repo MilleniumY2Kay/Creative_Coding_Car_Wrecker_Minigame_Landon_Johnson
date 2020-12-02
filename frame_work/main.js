@@ -1,5 +1,7 @@
 
 function preload() {
+	//sf_font = loadFont("assets/Act_Of_Rejection.ttf"):
+
 	stage = loadImage("assets/stage.png");//1260x787 pixels
 
 	for (var i = 0; i < 14; i++){
@@ -24,6 +26,7 @@ function draw() {
    image(stage,0,0);
 
    textSize(40);
+   //textFont(sf_font);
 
    fill(255,alert,0);
    text(timer+" s", 500, 30);
@@ -34,7 +37,7 @@ function draw() {
    if (timer < 11) {
    	alert = 0;
    }
-   
+
    if (frameCount % 60 ==0 && timer > 0 && car_hp > 0){
    	timer --;
    }
