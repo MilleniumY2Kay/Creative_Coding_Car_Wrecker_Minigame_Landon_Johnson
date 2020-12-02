@@ -22,6 +22,7 @@ function preload() {
 	}
 	for (var i = 0; i < 10; i++){
 		player[i] = loadImage("assets/old_sprites/ryu_stand/ryu_stand_" + i + ".png");
+		player[i].resize(200,0);
 	}
 	idle = loadAnimation(player[0], player[1],player[2],player[3],player[4],player[5]);
 }
@@ -40,10 +41,10 @@ function draw() {
    textSize(40);
 
    fill(255,140,0);
-   text(timer+"s", 500, 30);
+   text(timer+" s", 500, 30);
 
    fill(255,140,0);
-   text(score+"pts",30,30);
+   text(score+" pts",30,30);
 
    if (frameCount % 60 ==0 && timer > 0 && car_hp > 0){
    	timer --;
@@ -55,10 +56,11 @@ function draw() {
 
 }
 
-function MousePressed() {
+function mousePressed() {
 	if (car_hp > 0){
 		car_hp -= 100;
 		car_form += 1;
+		score += 100;
 	}
 }
 
