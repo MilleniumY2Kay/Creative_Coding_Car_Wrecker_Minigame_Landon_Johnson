@@ -1,4 +1,3 @@
-var akuma;
 
 function preload() {
 	sf_font = loadFont("assets/Act_Of_Rejection.ttf");
@@ -15,11 +14,18 @@ function setup() {
 	createCanvas(1200, 1200);
 	background(0);
 
+	frameRate(60);
+
+	//text stuff
 	textSize(40);
 	textFont(sf_font);
 
-	akuma = createSprite(200, 250, 250, 250);
-	var idle_anim = akuma.addAnimation('standing', 'assets/akuma/18273.png', 'assets/akuma/18282.png');
+	//sprite stuff
+	akuma = createSprite(200, 500, 500, 500); //akuma sprite
+	akuma.scale = 2;
+	var idle_anim = akuma.addAnimation('standing', 'assets/akuma/18273.png', 'assets/akuma/18282.png'); //standing animation
+	var turn = akuma.addAnimation('turn','assets/akuma/18283.png','assets/akuma/18284.png'); //turn around
+	var walk_f = akuma.addAnimation('walk_forward', 'assets/akuma/18284.png', 'assets/akuma/18292.png');//walk forward
 }
 
 function draw() {
@@ -27,14 +33,16 @@ function draw() {
    stage.resize(1200, 0);
    image(stage,0,0);
 
+
+   //onscreen text
    fill(255,alert,0);
    text(timer+" s", 800, 40);
-
    fill(255,140,0);
    text(score+" pts",100,40);
 
-   akuma.changeAnimation('standing');
    akuma.mirrorX(-1);
+   akuma.changeAnimation('standing');
+   
 
 
    if (timer < 11) {
@@ -46,7 +54,7 @@ function draw() {
    }
 
 
-
+   //car placement
    car[car_form].resize(0,450);
    image(car[car_form], 275, 250);
 
@@ -62,5 +70,17 @@ function mousePressed() {
 	}
 }
 
+/*function keyPressed(){
+	if (keyCode === LEFT_ARROW) {
+		if( frwrd === true){
+			akuma.changeAnimation('turn');
+			akuma.mirrorX(-1);
+			akuma.changeAnimation('walk_forward');
+		}else{
+			akuma.changeAnimation('walk_forward');
+		}
+		
 
+	}
+}*/
 
