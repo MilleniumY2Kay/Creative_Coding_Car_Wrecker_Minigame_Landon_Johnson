@@ -38,7 +38,7 @@ function setup() {
 		car[i].resize(0,450);
 	}
 	level_car = createSprite(600,500);
-	level_car.setCollider("rectangle",0,0, 400, 300);
+	level_car.setCollider("rectangle",0,50, 500, 300);
 
 	var destruction = level_car.addAnimation('transform', car[0], car[1], car[2], car[3], car[4], car[5], car[6], car[7], car[8], car[9], car[10], car[11], car[12],  car[13]);
 	destruction.playing = false;
@@ -46,13 +46,14 @@ function setup() {
 
 	akuma = createSprite(200, 500, 500, 500); //akuma sprite
 	akuma.scale = 2;
-	akuma.setCollider("rectangle",0,0, 90, 130);
+	akuma.setCollider("rectangle",0, 50, 90, 130);
 
 	var idle_anim = akuma.addAnimation('standing', 'assets/akuma/18273.png', 'assets/akuma/18282.png'); //standing animation
 	var taunt = akuma.addAnimation('taunt', 'assets/akuma/19034.png', 'assets/akuma/19039.png');
 	var taunt_hold = akuma.addAnimation('taunt hold', 'assets/akuma/19037.png', 'assets/akuma/19039.png');
 
 	var walk_f = akuma.addAnimation('walk_forward', 'assets/akuma/18286.png', 'assets/akuma/18290.png');//walk forward
+	var walk_b = akuma.addAnimation('walk_back', 'assets/akuma/18300.png', 'assets/akuma/18310.png');
 
 	var light_atk = akuma.addAnimation('light','assets/akuma/18624.png','assets/akuma/18628.png');//straight quick jab
 	light_atk.frameDelay = 20;
@@ -92,6 +93,9 @@ function draw() {
    fill(255,140,0);
    text(score+" pts",100,40);
 
+   if (akuma.position.x > 600) {
+   	back *= -1;
+   }
    //timer and score controls
    if (ggs === false) {
 
@@ -111,15 +115,15 @@ function draw() {
     //Controls for Movement
    
    if(keyIsDown(LEFT_ARROW)) {
-    	akuma.changeAnimation('walk_forward');
+    	akuma.changeAnimation('walk_back');
     	//flips horizontally
-    	akuma.mirrorX(1);
+    	akuma.mirrorX(back);
     	//moves left
     	akuma.velocity.x = -2;
   	} else if(keyIsDown(RIGHT_ARROW)) {
     	akuma.changeAnimation('walk_forward');
     	//unflips
-    	akuma.mirrorX(-1);
+    	akuma.mirrorX(back);
     	//moves right
     	akuma.velocity.x = 2;
   	}else {
