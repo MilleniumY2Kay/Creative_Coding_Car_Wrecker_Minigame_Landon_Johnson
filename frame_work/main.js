@@ -37,16 +37,28 @@ function setup() {
 	for (var i = 0; i < 14; i++){
 		car[i].resize(0,450);
 	}
+
+	ground = createSprite(0,800);
+	ground.setCollider("rectangle", 0, 150, 2400, 525);
+
+	l_wall = createSprite(0,0);
+	l_wall.setCollider("rectangle", 0, 0, 10, 2400);
+
+	r_wall = createSprite(1200,0);
+	r_wall.setCollider("rectangle", 0, 0, 10, 2400);
+
+
+
 	level_car = createSprite(600,500);
-	level_car.setCollider("rectangle",0,50, 500, 300);
+	level_car.setCollider("rectangle",0,80, 500, 300);
 
 	var destruction = level_car.addAnimation('transform', car[0], car[1], car[2], car[3], car[4], car[5], car[6], car[7], car[8], car[9], car[10], car[11], car[12],  car[13]);
 	destruction.playing = false;
 	destruction.looping = false;
 
-	akuma = createSprite(200, 500, 500, 500); //akuma sprite
+	akuma = createSprite(200, 505, 500, 500); //akuma sprite
 	akuma.scale = 2;
-	akuma.setCollider("rectangle",0, 50, 90, 130);
+	akuma.setCollider("rectangle",0, 50, 80, 130);
 
 	var idle_anim = akuma.addAnimation('standing', 'assets/akuma/18273.png', 'assets/akuma/18282.png'); //standing animation
 	var taunt = akuma.addAnimation('taunt', 'assets/akuma/19034.png', 'assets/akuma/19039.png');
@@ -77,6 +89,9 @@ function draw() {
    //hitboxes
 	level_car.debug = true;
 	akuma.debug = true;
+	ground.debug = true;
+	l_wall.debug = true;
+	r_wall.debug = true;
    //car placement
    level_car.changeAnimation('transform');
    
@@ -219,6 +234,10 @@ function draw() {
    }
 
    akuma.collide(level_car);
+   akuma.collide(ground);
+   akuma.collide(l_wall);
+   akuma.collide(r_wall);
+
   
 
    drawSprites();
