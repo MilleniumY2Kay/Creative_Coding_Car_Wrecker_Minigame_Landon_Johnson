@@ -1,7 +1,16 @@
 
 function preload() {
+
+	//font
 	sf_font = loadFont("assets/Act_Of_Rejection.ttf");
 
+	
+	//sound
+	soundFormats('ogg', 'mp3');
+	theme = loadSound('assets/akuma_theme.mp3');
+	
+
+	//image
 	stage = loadImage("assets/stage.png");//1260x787 pixels
 
 	for (var i = 0; i < 14; i++){
@@ -18,15 +27,23 @@ function setup() {
 	textSize(40);
 	textFont(sf_font);
 
+	//music
+	theme.play();
+	theme.loop();
+
 	//sprite stuff
 	akuma = createSprite(200, 500, 500, 500); //akuma sprite
 	akuma.scale = 2;
+	akuma.frameDelay = 1;
 
 	var idle_anim = akuma.addAnimation('standing', 'assets/akuma/18273.png', 'assets/akuma/18282.png'); //standing animation
 	var taunt = akuma.addAnimation('taunt', 'assets/akuma/19034.png', 'assets/akuma/19039.png');
 	var taunt_hold = akuma.addAnimation('taunt hold', 'assets/akuma/19037.png', 'assets/akuma/19039.png');
 	var turn = akuma.addAnimation('turn','assets/akuma/18283.png','assets/akuma/18284.png'); //turn around
-	var walk_f = akuma.addAnimation('walk_forward', 'assets/akuma/18284.png', 'assets/akuma/18290.png');//walk forward
+	var walk_f = akuma.addAnimation('walk_forward', 'assets/akuma/18286.png', 'assets/akuma/18290.png');//walk forward
+	var jab = akuma.addAnimation('jab','assets/akuma/18624.png','assets/akuma/18628.png');//straight quick jab
+
+
 }
 
 function draw() {
@@ -89,30 +106,42 @@ function draw() {
 
    
 
-   //Control
-   if (keyIsDown(RIGHT_ARROW)) {
-   	if (active === false) {
-   		if (akuma.mirrorX(back) === true) {
-		akuma.changeAnimation('walk_forward');
-		akuma.velocity.x = forward;
-   		}
-   	}
-   }
+   //Controls
+   if(mouseX < akuma.position.x - 10) {
+    akuma.changeAnimation('walk_forward');
+    //flip horizontally
+    akuma.mirrorX(1);
+    //negative x velocity: move left
+    akuma.velocity.x = -2;
+  }
+  else if(mouseX > akuma.position.x + 10) {
+    akuma.changeAnimation('walk_forward');
+    //unflip
+    akuma.mirrorX(-1);
+    akuma.velocity.x = 2;
+  }
+  else {
+    //if close to the mouse, don't move
+    akuma.changeAnimation('standing');
+    akuma.velocity.x = 0;
+}
 
    drawSprites();
 
 }
 
-function mousePressed() {
-	if (ggs === false) {
 
+
+  function mousePressed() {
+	/*if (ggs === false) {
+		akuma.changeAnimation('jab');
 		if (car_hp > 0 && car_form < 13){
 			car_hp -= 100;//car hp decreases every mouseclick
 			car_form += 1;//goes to next form in car image array
 			score += 100;//score goes up by 100
 		}
 
-	}
+	}*/
 }
 
 

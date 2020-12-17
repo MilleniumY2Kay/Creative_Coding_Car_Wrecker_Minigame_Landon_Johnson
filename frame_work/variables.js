@@ -4,6 +4,8 @@ var car = [];
 var akuma;
 var intro;
 
+var theme;
+
 var car_hp = 1300;
 var car_form = 0;
 
