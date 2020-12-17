@@ -1,3 +1,4 @@
+var level_car;
 
 function preload() {
 
@@ -20,7 +21,8 @@ function preload() {
 }
 
 function setup() {
-	createCanvas(1200, 1200);
+	frameRate(60);
+	createCanvas(1200, 800);
 	background(0);
 
 	//text stuff
@@ -32,16 +34,25 @@ function setup() {
 	theme.loop();
 
 	//sprite stuff
+	car[car_form].resize(0,450);
+
+	level_car = createSprite(600,500);
+	level_car.addImage(car[car_form]);
+	level_car.setDefaultCollider();
+
 	akuma = createSprite(200, 500, 500, 500); //akuma sprite
 	akuma.scale = 2;
-	akuma.frameDelay = 1;
+	akuma.setDefaultCollider();
 
 	var idle_anim = akuma.addAnimation('standing', 'assets/akuma/18273.png', 'assets/akuma/18282.png'); //standing animation
 	var taunt = akuma.addAnimation('taunt', 'assets/akuma/19034.png', 'assets/akuma/19039.png');
 	var taunt_hold = akuma.addAnimation('taunt hold', 'assets/akuma/19037.png', 'assets/akuma/19039.png');
-	var turn = akuma.addAnimation('turn','assets/akuma/18283.png','assets/akuma/18284.png'); //turn around
+
 	var walk_f = akuma.addAnimation('walk_forward', 'assets/akuma/18286.png', 'assets/akuma/18290.png');//walk forward
-	var jab = akuma.addAnimation('jab','assets/akuma/18624.png','assets/akuma/18628.png');//straight quick jab
+
+	var light_atk = akuma.addAnimation('light','assets/akuma/18624.png','assets/akuma/18628.png');//straight quick jab
+	var mid_atk = akuma.addAnimation('medium', 'assets/akuma/18696.png', 'assets/akuma/18702.png');//straight kick
+	var heavy_atk = akuma.addAnimation('heavy', 'assets/akuma/18704.png', 'assets/akuma/18716.png');//roundhouse kick
 
 
 }
@@ -52,8 +63,7 @@ function draw() {
    image(stage,0,0);
 
    //car placement
-   car[car_form].resize(0,450);
-   image(car[car_form], 275, 250);
+   
 
    //akuma animation constants
    akuma.mirrorX(back);
@@ -83,6 +93,34 @@ function draw() {
    if (frameCount % 30 ==0 && timer > 0 && car_hp > 0){//// if the frameCount is divisible by 60, then subtract 1 from the timer. it will stop at 0 seconds or if the car HP hits zero
    		timer --;
    }
+    //Controls for Movement
+   
+   if(keyIsDown(LEFT_ARROW)) {
+    	akuma.changeAnimation('walk_forward');
+    	//flips horizontally
+    	akuma.mirrorX(1);
+    	//moves left
+    	akuma.velocity.x = -2;
+  	} else if(keyIsDown(RIGHT_ARROW)) {
+    	akuma.changeAnimation('walk_forward');
+    	//unflips
+    	akuma.mirrorX(-1);
+    	//moves right
+    	akuma.velocity.x = 2;
+  	}else {
+    	//if close to the mouse, don't move
+    	akuma.changeAnimation('standing');
+    	akuma.velocity.x = 0;
+    }
+ 
+	if(keyWentDown('a')){
+		akuma.changeAnimation('light');
+	} else if (keyWentDown('s')) {
+		akuma.changeAnimation('medium');
+		akuma.position.x += 5;
+	} else if (keyWentDown('d')){
+		akuma.changeAnimation('heavy');
+	}
    }
 
    if (ggs === true) {//prints u win if u destroy car before time runs out
@@ -93,6 +131,7 @@ function draw() {
    		fill(0,255,0);
    		text("YOU WIN!", 500, 400);
    		akuma.changeAnimation('taunt');
+   		akuma.changeAnimation('taunt hold');
    		}else {
    			fill(255,255,0);
    			text("TIME OUT!", 500, 400);
@@ -101,30 +140,9 @@ function draw() {
    		}
 
    }
-   
 
-
-   
-
-   //Controls
-   if(mouseX < akuma.position.x - 10) {
-    akuma.changeAnimation('walk_forward');
-    //flip horizontally
-    akuma.mirrorX(1);
-    //negative x velocity: move left
-    akuma.velocity.x = -2;
-  }
-  else if(mouseX > akuma.position.x + 10) {
-    akuma.changeAnimation('walk_forward');
-    //unflip
-    akuma.mirrorX(-1);
-    akuma.velocity.x = 2;
-  }
-  else {
-    //if close to the mouse, don't move
-    akuma.changeAnimation('standing');
-    akuma.velocity.x = 0;
-}
+   //stage_car.collide(akuma);
+  
 
    drawSprites();
 
@@ -133,15 +151,16 @@ function draw() {
 
 
   function mousePressed() {
-	/*if (ggs === false) {
-		akuma.changeAnimation('jab');
+	if (ggs === false) {
 		if (car_hp > 0 && car_form < 13){
 			car_hp -= 100;//car hp decreases every mouseclick
 			car_form += 1;//goes to next form in car image array
 			score += 100;//score goes up by 100
 		}
 
-	}*/
-}
+	}
 
+
+
+}
 

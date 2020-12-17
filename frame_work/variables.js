@@ -2,6 +2,7 @@ var stage;
 var player = [];
 var car = [];
 var akuma;
+var level_car;
 var intro;
 
 var theme;
