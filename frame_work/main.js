@@ -41,6 +41,8 @@ function setup() {
 	level_car.setCollider("rectangle",0,0, 90, 120);
 
 	var destruction = level_car.addAnimation('transform', car[0], car[1], car[2], car[3], car[4], car[5], car[6], car[7], car[8], car[9], car[10], car[11], car[12],  car[13]);
+	destruction.playing = false;
+	destruction.looping = false;
 
 	akuma = createSprite(200, 500, 500, 500); //akuma sprite
 	akuma.scale = 2;
@@ -66,6 +68,7 @@ function draw() {
    clear();
    stage.resize(1200, 0);
    image(stage,0,0);
+   active = false;
 
    //car placement
    level_car.changeAnimation('transform');
@@ -120,18 +123,31 @@ function draw() {
     }
  
 	if(keyWentDown('a')){
+		active = true;
 		akuma.changeAnimation('light');
 	} else if (keyWentDown('s')) {
+		active = true;
 		akuma.changeAnimation('medium');
 		akuma.position.x += 5;
 	} else if (keyWentDown('d')){
+		active = true;
 		akuma.changeAnimation('heavy');
 	} else if (keyWentDown('c')) {
+		active = true;
 		akuma.changeAnimation('shoryu');
 	}else if (keyWentDown('x')) {
+		active = true;
 		akuma.changeAnimation('tatsu');
 	}else if (keyWentDown('z')) {
+		active = true;
 		akuma.changeAnimation('fireball');
+	}
+
+
+	if (active==true) {
+		if (akuma.overlap(level_car)) {
+			score += 100;
+		}
 	}
    }
 
@@ -166,7 +182,7 @@ function draw() {
 	if (ggs === false) {
 		if (car_hp > 0 && car_form < 13){
 			car_hp -= 100;//car hp decreases every mouseclick
-			car_form += 1;//goes to next form in car image array
+			destruction.nextFrame();//goes to next form in car image array
 			score += 100;//score goes up by 100
 		}
 
