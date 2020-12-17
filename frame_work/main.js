@@ -1,4 +1,4 @@
-var level_car;
+
 
 function preload() {
 
@@ -34,11 +34,13 @@ function setup() {
 	theme.loop();
 
 	//sprite stuff
-	car[car_form].resize(0,450);
-
+	for (var i = 0; i < 14; i++){
+		car[i].resize(0,450);
+	}
 	level_car = createSprite(600,500);
-	level_car.addImage(car[car_form]);
 	level_car.setDefaultCollider();
+
+	var destruction = level_car.addAnimation('transform', car[0], car[1], car[2], car[3], car[4], car[5], car[6], car[7], car[8], car[9], car[10], car[11], car[12],  car[13]);
 
 	akuma = createSprite(200, 500, 500, 500); //akuma sprite
 	akuma.scale = 2;
@@ -63,6 +65,7 @@ function draw() {
    image(stage,0,0);
 
    //car placement
+   level_car.changeAnimation('transform');
    
 
    //akuma animation constants
@@ -141,7 +144,7 @@ function draw() {
 
    }
 
-   //stage_car.collide(akuma);
+   akuma.collide(level_car);
   
 
    drawSprites();
