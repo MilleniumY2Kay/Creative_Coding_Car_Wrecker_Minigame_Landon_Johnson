@@ -61,6 +61,12 @@ function setup() {
 	var special2 = akuma.addAnimation('tatsu', 'assets/akuma/18972.png', 'assets/akuma/18979.png');
 	var special3 = akuma.addAnimation('fireball', 'assets/akuma/18944.png', 'assets/akuma/18955.png');
 
+	//hitspark = createSprite(500,500);
+	//hitspark.scale = 1;
+
+	//var spark1 = hitspark.addAnimation('spark1', 'assets/effects/hitsparks/29361.png', 'assets/effects/hitsparks/29369.png');
+	//spark1.looping = false;
+
 
 }
 
@@ -141,10 +147,13 @@ function draw() {
 		active = true;
 		dmg = 200;
 		akuma.changeAnimation('shoryu');
+		akuma.position.x +=5;
 	}else if (keyWentDown('x')) {
 		active = true;
 		dmg = 150;
+		akuma.velocity.x = 2;
 		akuma.changeAnimation('tatsu');
+		akuma.velocity.x = 0;
 	}else if (keyWentDown('z')) {
 		active = true;
 		dmg = 100;
@@ -155,7 +164,18 @@ function draw() {
 	if (active==true) {
 		if (akuma.overlap(level_car)) {
 			score += dmg;
+			hitspark = createSprite(akuma.position.x+10,akuma.position.y);
+			var spark1 = hitspark.addAnimation('spark1', 'assets/effects/hitsparks/30102.png', 'assets/effects/hitsparks/30111.png');
+			spark1.looping = false;
+
+			
+			hitspark.changeAnimation('spark1');
+			hitspark.visible = false;
+
+
+			
 		}
+		hitspark.visible = true;
 	}
    }
 
@@ -183,7 +203,6 @@ function draw() {
    drawSprites();
 
 }
-
 
 
   function mousePressed() {
