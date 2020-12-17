@@ -38,7 +38,7 @@ function setup() {
 		car[i].resize(0,450);
 	}
 	level_car = createSprite(600,500);
-	level_car.setDefaultCollider();
+	level_car.setCollider("rectangle",0,0, 90, 120);
 
 	var destruction = level_car.addAnimation('transform', car[0], car[1], car[2], car[3], car[4], car[5], car[6], car[7], car[8], car[9], car[10], car[11], car[12],  car[13]);
 
@@ -55,6 +55,9 @@ function setup() {
 	var light_atk = akuma.addAnimation('light','assets/akuma/18624.png','assets/akuma/18628.png');//straight quick jab
 	var mid_atk = akuma.addAnimation('medium', 'assets/akuma/18696.png', 'assets/akuma/18702.png');//straight kick
 	var heavy_atk = akuma.addAnimation('heavy', 'assets/akuma/18704.png', 'assets/akuma/18716.png');//roundhouse kick
+	var special1 = akuma.addAnimation('shoryu', 'assets/akuma/18958.png', 'assets/akuma/18971.png'); //dark shoryu move
+	var special2 = akuma.addAnimation('tatsu', 'assets/akuma/18972.png', 'assets/akuma/18979.png');
+	var special3 = akuma.addAnimation('fireball', 'assets/akuma/18944.png', 'assets/akuma/18955.png');
 
 
 }
@@ -123,6 +126,12 @@ function draw() {
 		akuma.position.x += 5;
 	} else if (keyWentDown('d')){
 		akuma.changeAnimation('heavy');
+	} else if (keyWentDown('c')) {
+		akuma.changeAnimation('shoryu');
+	}else if (keyWentDown('x')) {
+		akuma.changeAnimation('tatsu');
+	}else if (keyWentDown('z')) {
+		akuma.changeAnimation('fireball');
 	}
    }
 
