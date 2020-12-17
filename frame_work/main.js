@@ -38,7 +38,7 @@ function setup() {
 		car[i].resize(0,450);
 	}
 	level_car = createSprite(600,500);
-	level_car.setCollider("rectangle",0,0, 90, 120);
+	level_car.setCollider("rectangle",0,0, 400, 300);
 
 	var destruction = level_car.addAnimation('transform', car[0], car[1], car[2], car[3], car[4], car[5], car[6], car[7], car[8], car[9], car[10], car[11], car[12],  car[13]);
 	destruction.playing = false;
@@ -46,7 +46,7 @@ function setup() {
 
 	akuma = createSprite(200, 500, 500, 500); //akuma sprite
 	akuma.scale = 2;
-	akuma.setDefaultCollider();
+	akuma.setCollider("rectangle",0,0, 90, 130);
 
 	var idle_anim = akuma.addAnimation('standing', 'assets/akuma/18273.png', 'assets/akuma/18282.png'); //standing animation
 	var taunt = akuma.addAnimation('taunt', 'assets/akuma/19034.png', 'assets/akuma/19039.png');
@@ -73,6 +73,9 @@ function draw() {
    active = false;
    dmg = 0;
 
+   //hitboxes
+	level_car.debug = true;
+	akuma.debug = true;
    //car placement
    level_car.changeAnimation('transform');
    
@@ -152,24 +155,38 @@ function draw() {
 		akuma.velocity.x = 0;
 	}else if (keyWentDown('z')) {
 		dmg = 100;
+
+		akuma.changeAnimation('fireball');
+
 		flame = createSprite(akuma.position.x+100, akuma.position.y-30);
-		flame.setCollider("circle",0,0, 40);
 		flame.mirrorX(back);
-		flame.velocity.x = 3;
+		flame.velocity.x = 5;
+		flame.setCollider("circle", 0,80, 40);
+		flame.collide(level_car);
+		flame.life = 21;
+		flame.debug = true;
+		
+		
 		var gohadoken = flame.addAnimation('gohadoken', 'assets/akuma/19134.png', 'assets/akuma/19155.png');
 		flame.life = 21;
-		akuma.changeAnimation('fireball');
-		if (flame.overlap(level_car)) {
-			active = true;
-			
+		
+		if (flame.collide(level_car)) {
+			car_hp -= dmg;
+			score += dmg;
+			hitspark = createSprite(flame.position.x+10, flame.position.y);
+			var spark1 = hitspark.addAnimation('spark1', 'assets/effects/hitsparks/30102.png', 'assets/effects/hitsparks/30111.png');
+			spark1.looping = false;
+			hitspark.changeAnimation('spark1');
+			hitspark.life = 12;		
 		}
+
 
 
 	}
 
 
 	if (active==true) {
-		if (akuma.overlap(level_car) || flame.overlap(level_car)) {
+		if (akuma.overlap(level_car)) {
 			score += dmg;
 			hitspark = createSprite(akuma.position.x+10,akuma.position.y);
 			var spark1 = hitspark.addAnimation('spark1', 'assets/effects/hitsparks/30102.png', 'assets/effects/hitsparks/30111.png');
@@ -204,18 +221,4 @@ function draw() {
 
 }
 
-
-  function mousePressed() {
-	/*if (ggs === false) {
-		if (car_hp > 0 && car_form < 13){
-			car_hp -= 100;//car hp decreases every mouseclick
-			destruction.nextFrame();//goes to next form in car image array
-			score += 100;//score goes up by 100
-		}
-
-	}*/
-
-
-
-}
 
