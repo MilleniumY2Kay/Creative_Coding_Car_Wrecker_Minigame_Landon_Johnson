@@ -55,11 +55,13 @@ function setup() {
 	var walk_f = akuma.addAnimation('walk_forward', 'assets/akuma/18286.png', 'assets/akuma/18290.png');//walk forward
 
 	var light_atk = akuma.addAnimation('light','assets/akuma/18624.png','assets/akuma/18628.png');//straight quick jab
+	light_atk.frameDelay = 20;
 	var mid_atk = akuma.addAnimation('medium', 'assets/akuma/18696.png', 'assets/akuma/18702.png');//straight kick
 	var heavy_atk = akuma.addAnimation('heavy', 'assets/akuma/18704.png', 'assets/akuma/18716.png');//roundhouse kick
 	var special1 = akuma.addAnimation('shoryu', 'assets/akuma/18958.png', 'assets/akuma/18971.png'); //dark shoryu move
 	var special2 = akuma.addAnimation('tatsu', 'assets/akuma/18972.png', 'assets/akuma/18979.png');
 	var special3 = akuma.addAnimation('fireball', 'assets/akuma/18944.png', 'assets/akuma/18955.png');
+	special3.frameDelay = 60;
 
 	//hitspark = createSprite(500,500);
 	//hitspark.scale = 1;
@@ -167,15 +169,9 @@ function draw() {
 			hitspark = createSprite(akuma.position.x+10,akuma.position.y);
 			var spark1 = hitspark.addAnimation('spark1', 'assets/effects/hitsparks/30102.png', 'assets/effects/hitsparks/30111.png');
 			spark1.looping = false;
-
-			
 			hitspark.changeAnimation('spark1');
-			hitspark.visible = false;
-
-
-			
+			hitspark.life = 12;			
 		}
-		hitspark.visible = true;
 	}
    }
 
