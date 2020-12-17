@@ -69,6 +69,7 @@ function draw() {
    stage.resize(1200, 0);
    image(stage,0,0);
    active = false;
+   dmg = 0;
 
    //car placement
    level_car.changeAnimation('transform');
@@ -122,31 +123,38 @@ function draw() {
     	akuma.velocity.x = 0;
     }
  
+ 	//Controls for attacks
 	if(keyWentDown('a')){
 		active = true;
+		dmg = 25;
 		akuma.changeAnimation('light');
 	} else if (keyWentDown('s')) {
 		active = true;
+		dmg = 50;
 		akuma.changeAnimation('medium');
 		akuma.position.x += 5;
 	} else if (keyWentDown('d')){
 		active = true;
+		dmg = 100;
 		akuma.changeAnimation('heavy');
 	} else if (keyWentDown('c')) {
 		active = true;
+		dmg = 200;
 		akuma.changeAnimation('shoryu');
 	}else if (keyWentDown('x')) {
 		active = true;
+		dmg = 150;
 		akuma.changeAnimation('tatsu');
 	}else if (keyWentDown('z')) {
 		active = true;
+		dmg = 100;
 		akuma.changeAnimation('fireball');
 	}
 
 
 	if (active==true) {
 		if (akuma.overlap(level_car)) {
-			score += 100;
+			score += dmg;
 		}
 	}
    }
@@ -179,14 +187,14 @@ function draw() {
 
 
   function mousePressed() {
-	if (ggs === false) {
+	/*if (ggs === false) {
 		if (car_hp > 0 && car_form < 13){
 			car_hp -= 100;//car hp decreases every mouseclick
 			destruction.nextFrame();//goes to next form in car image array
 			score += 100;//score goes up by 100
 		}
 
-	}
+	}*/
 
 
 
