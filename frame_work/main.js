@@ -63,12 +63,6 @@ function setup() {
 	var special3 = akuma.addAnimation('fireball', 'assets/akuma/18944.png', 'assets/akuma/18955.png');
 	special3.frameDelay = 60;
 
-	//hitspark = createSprite(500,500);
-	//hitspark.scale = 1;
-
-	//var spark1 = hitspark.addAnimation('spark1', 'assets/effects/hitsparks/29361.png', 'assets/effects/hitsparks/29369.png');
-	//spark1.looping = false;
-
 
 }
 
@@ -157,14 +151,25 @@ function draw() {
 		akuma.changeAnimation('tatsu');
 		akuma.velocity.x = 0;
 	}else if (keyWentDown('z')) {
-		active = true;
 		dmg = 100;
+		flame = createSprite(akuma.position.x+100, akuma.position.y-30);
+		flame.setCollider("circle",0,0, 40);
+		flame.mirrorX(back);
+		flame.velocity.x = 3;
+		var gohadoken = flame.addAnimation('gohadoken', 'assets/akuma/19134.png', 'assets/akuma/19155.png');
+		flame.life = 21;
 		akuma.changeAnimation('fireball');
+		if (flame.overlap(level_car)) {
+			active = true;
+			
+		}
+
+
 	}
 
 
 	if (active==true) {
-		if (akuma.overlap(level_car)) {
+		if (akuma.overlap(level_car) || flame.overlap(level_car)) {
 			score += dmg;
 			hitspark = createSprite(akuma.position.x+10,akuma.position.y);
 			var spark1 = hitspark.addAnimation('spark1', 'assets/effects/hitsparks/30102.png', 'assets/effects/hitsparks/30111.png');
@@ -176,7 +181,6 @@ function draw() {
    }
 
    if (ggs === true) {//prints u win if u destroy car before time runs out
-   	
 
    	textSize(100);
    	if (timer > 0 && car_hp <= 0) {
