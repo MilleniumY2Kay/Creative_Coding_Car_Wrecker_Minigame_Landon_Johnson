@@ -1,4 +1,4 @@
-
+p5.disableFriendlyErrors = true; // disables FES
 
 function preload() {
 
@@ -66,9 +66,11 @@ function setup() {
 
 	var walk_f = akuma.addAnimation('walk_forward', 'assets/akuma/18286.png', 'assets/akuma/18290.png');//walk forward
 	var walk_b = akuma.addAnimation('walk_back', 'assets/akuma/18300.png', 'assets/akuma/18310.png');
+	var jump = akuma.addAnimation('jump', 'assets/akuma/18336.png', 'assets/akuma/18347.png');
+	var f_jump = akuma.addAnimation('f_jump', 'assets/akuma/18347.png', 'assets/akuma/18361.png');
 
 	var light_atk = akuma.addAnimation('light','assets/akuma/18624.png','assets/akuma/18628.png');//straight quick jab
-	light_atk.frameDelay = 20;
+	light_atk.frameDelay = 60;
 	var mid_atk = akuma.addAnimation('medium', 'assets/akuma/18696.png', 'assets/akuma/18702.png');//straight kick
 	var heavy_atk = akuma.addAnimation('heavy', 'assets/akuma/18704.png', 'assets/akuma/18716.png');//roundhouse kick
 	var special1 = akuma.addAnimation('shoryu', 'assets/akuma/18958.png', 'assets/akuma/18971.png'); //dark shoryu move
@@ -80,7 +82,6 @@ function setup() {
 }
 
 function draw() {
-   clear();
    stage.resize(1200, 0);
    image(stage,0,0);
    active = false;
@@ -98,9 +99,17 @@ function draw() {
 
    //akuma animation constants
    akuma.mirrorX(back);
-   akuma.changeAnimation('standing');
    akuma.velocity.x = 0;
-   akuma.velocity.y = 0;
+
+   /*if (akuma.collide(ground) || akuma.collide(car)) {
+   	akuma.velocity.y = 0;
+   	akuma.changeAnimation('standing');
+   	air = false;
+
+   } else {
+   	akuma.velocity += grav;
+   }
+   akuma.velocity.y = 0;*/
   
    //onscreen text
    fill(255,alert,0);
@@ -128,19 +137,33 @@ function draw() {
    		timer --;
    }
     //Controls for Movement
+    /*
+   if (keyIsDown(UP_ARROW)) {
+      air = true;
+      akuma.changeAnimation('jump');
+      akuma.animation.rewind();
+      akuma.velocity.y = -10;
+
+
+   }
+	
    
    if(keyIsDown(LEFT_ARROW)) {
-    	akuma.changeAnimation('walk_back');
-    	//flips horizontally
-    	akuma.mirrorX(back);
-    	//moves left
-    	akuma.velocity.x = -2;
+   		if (air === false) {
+   			akuma.changeAnimation('walk_back');
+    		//flips horizontally
+    		akuma.mirrorX(back);
+    		//moves left
+    		akuma.velocity.x = -2;
+   		}
+    	
   	} else if(keyIsDown(RIGHT_ARROW)) {
-    	akuma.changeAnimation('walk_forward');
-    	//unflips
-    	akuma.mirrorX(back);
-    	//moves right
-    	akuma.velocity.x = 2;
+    	if (air===false) {
+    		akuma.changeAnimation('walk_forward');
+    		akuma.mirrorX(back);
+    		//moves right
+    		akuma.velocity.x = 2;
+    	}
   	}else {
     	//if close to the mouse, don't move
     	akuma.changeAnimation('standing');
@@ -196,17 +219,18 @@ function draw() {
 			var spark1 = hitspark.addAnimation('spark1', 'assets/effects/hitsparks/30102.png', 'assets/effects/hitsparks/30111.png');
 			spark1.looping = false;
 			hitspark.changeAnimation('spark1');
-			hitspark.life = 12;		
+			hitspark.life = 12 		
 		}
 
 
 
-	}
+	}*/
 
 
 	if (active==true) {
 		if (akuma.overlap(level_car)) {
 			score += dmg;
+			car_hp -= dmg;
 			hitspark = createSprite(akuma.position.x+10,akuma.position.y);
 			var spark1 = hitspark.addAnimation('spark1', 'assets/effects/hitsparks/30102.png', 'assets/effects/hitsparks/30111.png');
 			spark1.looping = false;
@@ -243,5 +267,6 @@ function draw() {
    drawSprites();
 
 }
+
 
 

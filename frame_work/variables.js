@@ -19,5 +19,5 @@ var alert = 140;
 var active = false;
 var ggs = false
 var back = -1;
-
+var air = false
 
